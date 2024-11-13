@@ -31,7 +31,7 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1
       with:
         key: ${{ matrix.os }}-${{ matrix.ui }}-${{ matrix.scripting }}-${{ matrix.build_type }}
-    - uses: seanmiddleditch/gha-setup-ninja@master
+    - uses: aseprite/get-ninja@main
     - name: Generating Makefiles
       shell: bash
       run: |
