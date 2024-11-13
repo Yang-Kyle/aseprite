@@ -1,7 +1,5 @@
 name: View Root Directory
-
 on: [push]
-
 jobs:
   list-root-directory:
     runs-on: ${{ matrix.os }}
@@ -12,14 +10,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: List root directory on macOS/Linux
+      - name: test unix
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
-          ls -la /
+          pwd ls -lhA /
         shell: bash
 
-      - name: List root directory on Windows
+      - name: test win
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          dir
+          pwd ; dir
         shell: pwsh
