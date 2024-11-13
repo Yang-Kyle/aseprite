@@ -8,12 +8,12 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: test unix
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
-          pwd ls -lhA /
+          pwd ; ls -lhA
         shell: bash
 
       - name: test win
