@@ -6,31 +6,41 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         build_type: [Release]
         enable_ui: [on]
         include:
-          - os: ubuntu-latest
+          - os: windows-latest
             build_type: Release
             enable_ui: on
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
       with:
         submodules: 'recursive'
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1
+      if: runner.os == 'Linux'
       with:
         key: ${{ matrix.os }}-${{ matrix.enable_ui }}
     - uses: seanmiddleditch/gha-setup-ninja@master
+    - uses: ilammy/msvc-dev-cmd@v1
+      if: runner.os == 'Windows'
     - name: Install Dependencies
       shell: bash
       run: |
-        sudo apt update -qq
-        sudo apt install -y libx11-dev libxcursor-dev libxi-dev
+        if [[ "${{ runner.os }}" == "Linux" ]] ; then
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            libx11-dev libxcursor-dev libxi-dev
+        fi
     - name: Generating Makefiles
       shell: bash
       run: |
-        export enable_ccache=on
+        if [[ "${{ runner.os }}" == "Windows" ]] ; then
+          export enable_ccache=off
+        else
+          export enable_ccache=on
+        fi
         curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/skia.zip --output skia.zip
         7z x skia.zip
         cmake -S . -B build -G Ninja \
@@ -43,10 +53,11 @@ jobs:
           -DSKIA_LIBRARY=./skia/out/Release-x64/skia.lib
     - name: Compiling
       shell: bash
-      run: cd build && ninja
-    - uses: actions/upload-artifact@v4
+      run: |
+        cd build && ninja
+    - uses: actions/upload-artifact@v3
       with:
         name: aseprite
         path: |
-          build/bin/data
-          build/bin/aseprite
+          D:/a/aseprite/aseprite/build/bin/data
+          D:/a/aseprite/aseprite/build/bin/aseprite.exe
