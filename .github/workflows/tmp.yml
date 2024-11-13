@@ -1,5 +1,8 @@
 name: View Root Directory
-on: [] # push
+on:
+  push:
+    paths:
+      - 'tmp.yml'
 jobs:
   list-root-directory:
     runs-on: ${{ matrix.os }}
