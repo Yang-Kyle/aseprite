@@ -6,10 +6,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ubuntu-latest
-        build_type: RelWithDebInfo
-        ui: gui
-        scripting: lua
+        os: [ubuntu-latest]
+        build_type: [RelWithDebInfo]
+        ui: [gui]
+        scripting: [lua]
     steps:
     - uses: actions/checkout@v4
       with:
