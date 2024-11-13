@@ -6,8 +6,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        build_type: [RelWithDebInfo]
+        os: ubuntu-latest
+        build_type: RelWithDebInfo
         ui: gui
         scripting: lua
     steps:
@@ -36,17 +36,8 @@ jobs:
       shell: bash
       run: |
           export enable_ccache=on
-        if [[ "${{ matrix.ui }}" == "gui" ]] ; then
           export laf_backend=skia
-        else
-          export laf_backend=none
-        fi
-        
-        if [[ "${{ matrix.scripting }}" == "lua" ]] ; then
           export enable_scripting=on
-        else
-          export enable_scripting=off
-        fi
           export skia_arch=x64
         cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
