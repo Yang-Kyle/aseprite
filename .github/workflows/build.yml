@@ -31,7 +31,8 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1
       with:
         key: ${{ matrix.os }}-${{ matrix.ui }}-${{ matrix.scripting }}-${{ matrix.build_type }}
-    - uses: aseprite/get-ninja@main
+    - name: ninja
+      uses: aseprite/get-ninja@main
     - name: Generating Makefiles
       shell: bash
       run: |
@@ -55,9 +56,9 @@ jobs:
     - name: view dir
       shell: bash
       run: pwd ; ls -lAh
-      - uses: actions/upload-artifact@v4
-        with:
-          name: aseprite
-          path: |
-            /home/runner/work/aseprite/aseprite/build/bin/data
-            /home/runner/work/aseprite/aseprite/build/bin/aseprite
+    - uses: actions/upload-artifact@v4
+      with:
+        name: aseprite
+        path: |
+          /home/runner/work/aseprite/aseprite/build/bin/data
+          /home/runner/work/aseprite/aseprite/build/bin/aseprite
