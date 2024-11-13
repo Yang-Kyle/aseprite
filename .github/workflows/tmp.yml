@@ -1,0 +1,21 @@
+name: View Root Directory
+
+on: [push]
+
+jobs:
+  list-root-directory:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: List root directory
+        run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            dir
+          else
+            ls -la /
+          fi
